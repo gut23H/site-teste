@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Celestial Compass - Feed</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body,html{
+      height:100%;
+      font-family:'Inter',sans-serif;
+      background:#000;
+      color:#fff;
+      overflow:hidden;
+    }
+
+    /* Feed de vídeos */
+    .feed{
+      height:100vh;
+      overflow-y:scroll;
+      scroll-snap-type:y mandatory;
+      -webkit-overflow-scrolling:touch;
+    }
+
+    .video-container{
+      position:relative;
+      width:100%;
+      height:100vh;
+      scroll-snap-align:start;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:#000;
+    }
+
+    video{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    /* Informações do vídeo */
+    .video-info{
+      position:absolute;
+      bottom:60px;
+      left:10px;
+      width:70%;
+      color:#fff;
+      z-index:10;
+      text-shadow:0 0 10px rgba(0,0,0,0.8);
+    }
+    .video-info h3{font-size:1rem;margin-bottom:4px}
+    .video-info p{font-size:0.9rem;color:#ccc}
+
+    /* Botões laterais */
+    .side-buttons{
+      position:absolute;
+      right:10px;
+      bottom:100px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:22px;
+      z-index:10;
+    }
+    .side-buttons button{
+      background:none;
+      border:none;
+      color:#fff;
+      font-size:2rem;
+      cursor:pointer;
+      transition:transform 0.2s;
+    }
+    .side-buttons button:active{transform:scale(1.2)}
+    .side-buttons span{
+      font-size:0.8rem;
+      margin-top:4px;
+      color:#ccc;
+    }
+
+    /* Header fixo */
+    header{
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      text-align:center;
+      padding:10px 0;
+      font-weight:600;
+      color:#fff;
+      background:rgba(0,0,0,0.3);
+      z-index:15;
+      backdrop-filter:blur(10px);
+    }
+
+    /* Tela inicial */
+    .start-screen{
+      position:fixed;
+      top:0;left:0;
+      width:100%;height:100%;
+      background:linear-gradient(to bottom,#111,#000);
+      color:#fff;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      z-index:20;
+    }
+    .start-screen button{
+      background:#ff0050;
+      border:none;
+      padding:12px 28px;
+      border-radius:25px;
+      color:#fff;
+      font-weight:600;
+      margin-top:16px;
+      font-size:1rem;
+      cursor:pointer;
+      transition:all 0.3s;
+    }
+    .start-screen button:hover{
+      background:#ff2c6a;
+      transform:scale(1.05);
+    }
+
+    /* Botão flutuante */
+    .upload-fab {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(45deg, #ff0050, #00f2ea);
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+      z-index: 30;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .upload-fab:hover {
+      transform: translateX(-50%) scale(1.1);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+    }
+
+    /* Modal de upload */
+    .upload-modal {
+      position: fixed;
+      bottom: 90px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.9);
+      padding: 16px;
+      border-radius: 16px;
+      width: 85%;
+      max-width: 320px;
+      display: none;
+      flex-direction: column;
+      gap: 8px;
+      z-index: 40;
+      box-shadow: 0 0 15px rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      animation: fadeIn 0.3s ease;
+    }
+    .upload-modal.active {
+      display: flex;
+    }
+
+    .upload-modal input, .upload-modal button {
+      border: none;
+      outline: none;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+
+    .upload-modal input {
+      background: #111;
+      color: white;
+    }
+
+    .upload-modal button {
+      background: #00f2ea;
+      color: #000;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .upload-modal label {
+      background: #ff0050;
+      color: white;
+      padding: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .upload-modal .status {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #ccc;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+      to { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <header>Celestial Compass</header>
+
+  <div class="start-screen" id="startScreen">
+    <h2>✨ Bem-vindo ao Celestial Compass ✨</h2>
+    <p>Assista e compartilhe vídeos inspiradores!</p>
+    <button id="startBtn">Começar ▶️</button>
+  </div>
+
+  <div class="feed" id="feed" style="display:none;"></div>
+
+  <!-- Botão flutuante de upload -->
+  <div class="upload-fab" id="openUpload">➕</div>
+
+  <!-- Modal de upload -->
+  <div class="upload-modal" id="uploadModal">
+    <form id="uploadForm">
+      <input type="file" id="videoFile" accept="video/mp4" required style="display:none;">
+      <label for="videoFile">🎥 Escolher vídeo</label>
+      <input type="text" id="title" placeholder="Título (opcional)">
+      <input type="text" id="author" placeholder="Autor (opcional)">
+      <button type="submit">Enviar</button>
+      <div class="status" id="uploadStatus"></div>
+    </form>
+  </div>
+
+  <script>
+    const API_BASE = 'http://localhost:3000';
+    const startScreen = document.getElementById('startScreen');
+    const startBtn = document.getElementById('startBtn');
+    const feed = document.getElementById('feed');
+    const uploadForm = document.getElementById('uploadForm');
+    const uploadStatus = document.getElementById('uploadStatus');
+    const openBtn = document.getElementById('openUpload');
+    const modal = document.getElementById('uploadModal');
+
+    // Abrir/fechar modal
+    openBtn.addEventListener('click', () => {
+      modal.classList.toggle('active');
+    });
+
+    startBtn.onclick = async () => {
+      startScreen.style.display = 'none';
+      feed.style.display = 'block';
+      await loadVideos();
+    };
+
+    async function loadVideos(){
+      feed.innerHTML = '<p style="text-align:center;color:#777;margin-top:20px;">Carregando vídeos...</p>';
+      try {
+        const res = await fetch(API_BASE+'/api/videos');
+        const list = await res.json();
+        if(!Array.isArray(list)||list.length===0){
+          feed.innerHTML = '<p style="text-align:center;color:#777;margin-top:20px;">Nenhum vídeo enviado ainda.</p>';
+          return;
+        }
+        feed.innerHTML='';
+        list.forEach(v=>{
+          const div=document.createElement('div');
+          div.className='video-container';
+          const video=document.createElement('video');
+          video.src=API_BASE+v.url;
+          video.loop=true;
+          video.muted=true;
+          div.appendChild(video);
+
+          const info=document.createElement('div');
+          info.className='video-info';
+          info.innerHTML=`<h3>@${v.author||'Anônimo'}</h3><p>${v.title||''}</p>`;
+          div.appendChild(info);
+
+          const buttons=document.createElement('div');
+          buttons.className='side-buttons';
+          buttons.innerHTML=`
+            <div>
+              <button class="like">❤️</button><span>0</span>
+            </div>
+            <div>
+              <button onclick="alert('Em breve: comentários')">💬</button>
+              <span></span>
+            </div>
+            <div>
+              <button onclick="navigator.share ? navigator.share({title:'Celestial Compass', url:location.href}) : alert('Copie o link!')">↗️</button>
+              <span></span>
+            </div>
+          `;
+          div.appendChild(buttons);
+
+          feed.appendChild(div);
+
+          video.addEventListener('click',()=> video.paused?video.play():video.pause());
+        });
+
+        const videos=document.querySelectorAll('video');
+        function playVisible(){
+          let best=null,bestRatio=0;
+          videos.forEach(v=>{
+            const r=v.getBoundingClientRect();
+            const visible=Math.max(0,Math.min(r.bottom,window.innerHeight)-Math.max(r.top,0));
+            const ratio=visible/r.height;
+            if(ratio>bestRatio){best=v;bestRatio=ratio;}
+          });
+          videos.forEach(v=>v.pause());
+          if(best&&bestRatio>0.5)best.play();
+        }
+        window.addEventListener('scroll',playVisible);
+        playVisible();
+
+      }catch(err){
+        feed.innerHTML='<p style="text-align:center;color:red;">Erro ao carregar vídeos.</p>';
+        console.error(err);
+      }
+    }
+
+    uploadForm.onsubmit=async(e)=>{
+      e.preventDefault();
+      const file=document.getElementById('videoFile').files[0];
+      if(!file){uploadStatus.textContent='Selecione um vídeo.';return;}
+      uploadStatus.textContent='Enviando...';
+      const form=new FormData();
+      form.append('videoFile',file);
+      form.append('title',document.getElementById('title').value);
+      form.append('author',document.getElementById('author').value);
+      try{
+        const res=await fetch(API_BASE+'/api/upload',{method:'POST',body:form});
+        const data=await res.json();
+        if(res.ok){
+          uploadStatus.textContent='✅ Enviado!';
+          modal.classList.remove('active');
+          await loadVideos();
+          setTimeout(()=>uploadStatus.textContent='',2000);
+        }else{
+          uploadStatus.textContent='Erro: '+(data.error||'Falha no upload');
+        }
+      }catch(err){
+        uploadStatus.textContent='Erro ao enviar.';
+      }
+    };
+  </script>
+</body>
+</html>

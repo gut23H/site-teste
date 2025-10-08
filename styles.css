@@ -1,0 +1,482 @@
+/* Reset e configurações básicas */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.copy-btn {
+    margin-top: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.copy-btn:hover {
+    background-color: #45a049;
+}
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #f7faff;
+  color: #1a1a1a;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Cabeçalho */
+.header {
+  background-color: #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2563eb;
+  cursor: pointer;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #4b5563;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  position: relative;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: #2563eb;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #2563eb;
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+/* Menu toggle com CSS puro usando checkbox */
+.menu-toggle {
+  display: none;
+}
+
+/* Menu hambúrguer (mobile) */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background-color: #1a1a1a;
+  transition: all 0.3s ease;
+}
+
+/* Animação do hambúrguer com checkbox checked */
+.menu-toggle:checked + .hamburger span:nth-child(1) {
+  transform: rotate(45deg) translate(8px, 8px);
+}
+
+.menu-toggle:checked + .hamburger span:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-toggle:checked + .hamburger span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -7px);
+}
+
+/* Main content */
+main {
+  margin-top: 70px;
+}
+
+/* Hero Section */
+.hero {
+  text-align: center;
+  padding: 4rem 0 3rem;
+  background: linear-gradient(135deg, #dbeafe 0%, #f7faff 100%);
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+  font-size: 1.125rem;
+  color: #6b7280;
+  font-weight: 300;
+}
+
+/* Seção de Versículo */
+.verse-section {
+  padding: 3rem 0;
+}
+
+.verse-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 2.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.verse-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2563eb;
+  margin-bottom: 1.5rem;
+}
+
+.verse-text {
+  font-size: 1.25rem;
+  line-height: 1.8;
+  color: #1a1a1a;
+  font-style: italic;
+}
+
+/* Estilos para os botões de ação do versículo */
+.verse-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.verse-actions .btn {
+  min-width: 160px;
+}
+
+/* Botões */
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: "Poppins", sans-serif;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-primary {
+  background-color: #2563eb;
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background-color: #1d4ed8;
+}
+
+.btn-secondary {
+  background-color: #f3f4f6;
+  color: #1a1a1a;
+}
+
+.btn-secondary:hover {
+  background-color: #e5e7eb;
+}
+
+.btn-whatsapp {
+  background-color: #25d366;
+  color: #ffffff;
+  width: 100%;
+  justify-content: center;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.btn-whatsapp:hover {
+  background-color: #20ba5a;
+}
+
+/* Seção de Oração */
+.prayer-section {
+  padding: 4rem 0;
+  background-color: #ffffff;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  color: #1a1a1a;
+  margin-bottom: 0.5rem;
+}
+
+.section-subtitle {
+  text-align: center;
+  color: #6b7280;
+  margin-bottom: 2rem;
+}
+
+.prayer-form {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.875rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  color: #1a1a1a;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.prayer-cta {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.prayer-text {
+  font-size: 1.125rem;
+  color: #374151;
+  margin-bottom: 2rem;
+}
+
+.prayer-note {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: #fef3c7;
+  border-radius: 8px;
+  color: #92400e;
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+/* Página de Ensinamentos */
+.teaching-section {
+  padding: 3rem 0;
+  min-height: calc(100vh - 200px);
+}
+
+.teaching-article {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 3rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.teaching-title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 0.5rem;
+}
+
+.teaching-subtitle {
+  font-size: 1.125rem;
+  color: #6b7280;
+  margin-bottom: 2rem;
+  font-style: italic;
+}
+
+.teaching-content {
+  line-height: 1.8;
+}
+
+.teaching-content p {
+  margin-bottom: 1.5rem;
+  color: #374151;
+}
+
+.teaching-content h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2563eb;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.teaching-quote {
+  background-color: #dbeafe;
+  border-left: 4px solid #2563eb;
+  padding: 1.5rem;
+  margin: 2rem 0;
+  font-style: italic;
+  color: #1e40af;
+  border-radius: 8px;
+}
+
+.teaching-conclusion {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 2px solid #e5e7eb;
+  font-weight: 500;
+  color: #1a1a1a;
+}
+
+.teaching-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2.5rem;
+  flex-wrap: wrap;
+}
+
+/* Rodapé */
+.footer {
+  background-color: #1a1a1a;
+  color: #ffffff;
+  text-align: center;
+  padding: 2rem 0;
+  margin-top: 4rem;
+}
+
+.footer p {
+  font-size: 0.875rem;
+  opacity: 0.8;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+  }
+
+  .nav {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background-color: #ffffff;
+    flex-direction: column;
+    padding: 2rem;
+    gap: 1.5rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  /* Menu mobile ativado com checkbox checked */
+  .menu-toggle:checked ~ .nav {
+    transform: translateX(0);
+  }
+
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .verse-card {
+    padding: 1.5rem;
+  }
+
+  .verse-text {
+    font-size: 1.125rem;
+  }
+
+  .teaching-article {
+    padding: 1.5rem;
+  }
+
+  .teaching-title {
+    font-size: 1.75rem;
+  }
+
+  .teaching-actions {
+    flex-direction: column;
+  }
+
+  .teaching-actions .btn {
+    width: 100%;
+  }
+
+  /* Responsividade para botões de versículo */
+  .verse-actions {
+    flex-direction: column;
+  }
+
+  .verse-actions .btn {
+    width: 100%;
+  }
+}

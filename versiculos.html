@@ -1,0 +1,177 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Versículos Inspiradores - Celestial Compass</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to bottom, #f0f7ff, #ffffff);
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #ffffffd8;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 15px 0;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    header h1 {
+      color: #0078ff;
+      margin: 0;
+      font-weight: 700;
+    }
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+    .verse-card {
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 20px;
+      margin-bottom: 25px;
+      animation: fadeIn 0.8s ease-in;
+    }
+    .verse-title {
+      color: #0056b3;
+      margin-bottom: 10px;
+    }
+    .verse-text {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #333;
+    }
+    .buttons {
+      margin-top: 15px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      background-color: #0078ff;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.3s ease;
+    }
+    .btn:hover {
+      background-color: #005fd4;
+    }
+    .toast {
+      visibility: hidden;
+      min-width: 200px;
+      background-color: #0078ff;
+      color: #fff;
+      text-align: center;
+      border-radius: 10px;
+      padding: 12px;
+      position: fixed;
+      z-index: 1;
+      right: 20px;
+      bottom: 30px;
+      font-weight: 500;
+      opacity: 0;
+      transition: opacity 0.5s, visibility 0.5s;
+    }
+    .toast.show {
+      visibility: visible;
+      opacity: 1;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>📖 Versículos Inspiradores</h1>
+  </header>
+
+  <div class="container" id="versiculosContainer">
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script>
+    const versiculos = [
+      "Salmos 23:1 — O Senhor é o meu pastor; nada me faltará.",
+      "Filipenses 4:13 — Posso todas as coisas naquele que me fortalece.",
+      "João 3:16 — Porque Deus amou o mundo de tal maneira que deu o seu Filho unigênito.",
+      "Romanos 8:28 — Todas as coisas cooperam para o bem daqueles que amam a Deus.",
+      "Josué 1:9 — Sê forte e corajoso; não temas, nem te espantes, porque o Senhor teu Deus é contigo.",
+      "Provérbios 3:5 — Confia no Senhor de todo o teu coração e não te apoies no teu próprio entendimento.",
+      "Mateus 5:14 — Vós sois a luz do mundo; não se pode esconder uma cidade edificada sobre um monte.",
+      "Isaías 41:10 — Não temas, porque eu sou contigo; não te assombres, porque eu sou o teu Deus.",
+      "Salmos 91:1 — Aquele que habita no esconderijo do Altíssimo, à sombra do Onipotente descansará.",
+      "Romanos 12:12 — Alegrai-vos na esperança, sede pacientes na tribulação, perseverai na oração.",
+      "1 Coríntios 13:4 — O amor é paciente, o amor é bondoso. Não inveja, não se vangloria, não se orgulha.",
+      "Salmos 37:5 — Entrega o teu caminho ao Senhor; confia nele, e ele o fará.",
+      "Isaías 40:31 — Mas os que esperam no Senhor renovarão as suas forças; subirão com asas como águias.",
+      "Tiago 1:5 — Se algum de vós tem falta de sabedoria, peça-a a Deus, que a todos dá liberalmente.",
+      "Salmos 46:1 — Deus é o nosso refúgio e fortaleza, socorro bem presente na angústia.",
+      "Mateus 11:28 — Vinde a mim, todos os que estais cansados e oprimidos, e eu vos aliviarei.",
+      "Salmos 119:105 — Lâmpada para os meus pés é a tua palavra, e luz para o meu caminho.",
+      "Efésios 6:10 — Fortalecei-vos no Senhor e na força do seu poder.",
+      "1 João 4:19 — Nós amamos porque Ele nos amou primeiro.",
+      "Salmos 121:1-2 — Elevo os meus olhos para os montes; de onde me virá o socorro? O meu socorro vem do Senhor."
+    ];
+
+    const container = document.getElementById('versiculosContainer');
+
+    versiculos.forEach((v, i) => {
+      const card = document.createElement('div');
+      card.classList.add('verse-card');
+      card.innerHTML = `
+        <h3 class="verse-title">Versículo ${i + 1}</h3>
+        <p class="verse-text">${v}</p>
+        <div class="buttons">
+          <button class="btn" onclick="copiarVersiculo('${v.replace(/'/g, "\'")}')">📋 Copiar</button>
+          <button class="btn" onclick="baixarPDF('${v.replace(/'/g, "\'")}')">📥 Baixar PDF</button>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+
+    function copiarVersiculo(texto) {
+      navigator.clipboard.writeText(texto).then(() => {
+        mostrarToast("✅ Versículo copiado!");
+      });
+    }
+
+    async function baixarPDF(texto) {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      doc.setFont("Helvetica", "normal");
+      doc.setFontSize(14);
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const margin = 20;
+      const textWidth = pageWidth - margin * 2;
+      const lines = doc.splitTextToSize(texto, textWidth);
+      doc.text(lines, margin, 30);
+      doc.save("versiculo.pdf");
+      mostrarToast("📥 PDF gerado!");
+    }
+
+    function mostrarToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+  </script>
+</body>
+</html>
