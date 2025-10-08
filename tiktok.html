@@ -229,16 +229,16 @@
   <div class="upload-fab" id="openUpload">➕</div>
 
   <!-- Modal de upload -->
-  <div class="upload-modal" id="uploadModal">
-    <form id="uploadForm">
-      <input type="file" id="videoFile" accept="video/mp4" required style="display:none;">
-      <label for="videoFile">🎥 Escolher vídeo</label>
-      <input type="text" id="title" placeholder="Título (opcional)">
-      <input type="text" id="author" placeholder="Autor (opcional)">
-      <button type="submit">Enviar</button>
-      <div class="status" id="uploadStatus"></div>
-    </form>
-  </div>
+<div class="upload-modal" id="uploadModal">
+  <form id="uploadForm" action="/upload" method="POST" enctype="multipart/form-data">
+    <input type="file" name="video" id="videoFile" accept="video/mp4" required style="display:none;">
+    <label for="videoFile">🎥 Escolher vídeo</label>
+    <input type="text" name="title" id="title" placeholder="Título (opcional)">
+    <input type="text" name="author" id="author" placeholder="Autor (opcional)">
+    <button type="submit">Enviar</button>
+    <div class="status" id="uploadStatus"></div>
+  </form>
+</div>
 
   <script>
     const API_BASE = 'http://localhost:3000';
@@ -355,3 +355,4 @@
   </script>
 </body>
 </html>
+
